@@ -1,0 +1,7 @@
+CREATE TABLE Product (
+    id VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(6,2) NOT NULL,
+    supplierId BIGINT(20),
+    FOREIGN KEY (supplierId) REFERENCES Supplier(Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
