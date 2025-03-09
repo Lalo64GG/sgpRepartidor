@@ -37,3 +37,8 @@ func AuthController() *controllers.AuthController{
 	authService := application.NewAuthUseCase(driverRepository)
 	return controllers.NewAuthController(authService)
 }
+
+func GetDriverByIdController() *controllers.GetDriverByIdController{
+	getDriverService := application.NewGetDriverByIdUseCase(driverRepository)
+	return controllers.NewGetDriverByIdController(getDriverService)
+}

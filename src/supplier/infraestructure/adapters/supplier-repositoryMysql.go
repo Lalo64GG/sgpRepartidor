@@ -72,7 +72,7 @@ func (r *SupplierRepositoryMysql) CheckEmail(email string) (bool, error ){
 func (r *SupplierRepositoryMysql) GetAll(limit, page int64, orderBy, orderDir string ) ([]entities.Supplier, error) {
 	offset := limit * (page -1)
 
-	query := fmt.Sprintf("SELECT * FROM Supplier ORDER BY %s %s LIMIT ? OFFSET ?", orderBy, orderDir)
+	query := fmt.Sprintf("SELECT Id, Name, Email, Address, ContactInfo FROM Supplier ORDER BY %s %s LIMIT ? OFFSET ?", orderBy, orderDir)
 
 	stmt, err := r.DB.Prepare(query)
 	if err != nil {
@@ -90,7 +90,7 @@ func (r *SupplierRepositoryMysql) GetAll(limit, page int64, orderBy, orderDir st
 	var suppliers []entities.Supplier
 	for rows.Next() {
 		var supplier entities.Supplier
-		err = rows.Scan(&supplier.ID, &supplier.Name, &supplier.Email, &supplier.Password, &supplier.Address, &supplier.ContactInfo)
+		err = rows.Scan(&supplier.ID, &supplier.Name, &supplier.Email, &supplier.Address, &supplier.ContactInfo)
 		if err != nil {
 			return nil, err
 		}
@@ -106,7 +106,7 @@ func (r *SupplierRepositoryMysql) GetAll(limit, page int64, orderBy, orderDir st
 
 
 func (r *SupplierRepositoryMysql) GetByEmail(email string) (entities.Supplier, error) {
-	query := `SELECT Id, Name, Email, Password, Address FROM Supplier WHERE email = ?`
+	query := `SELECT Id, Name, Email, Password, Address, ContactInfo  FROM Supplier WHERE email = ?`
 	stmt, err := r.DB.Prepare(query)
 	if err != nil {
 		return entities.Supplier{}, err
@@ -115,20 +115,20 @@ func (r *SupplierRepositoryMysql) GetByEmail(email string) (entities.Supplier, e
 
 	row := stmt.QueryRow(email)
 
-	var client entities.Supplier
+	var supplier entities.Supplier
 
-	err = row.Scan(&client.ID, &client.Name, &client.Email, &client.Password, &client.Address)
+	err = row.Scan(&supplier.ID, &supplier.Name, &supplier.Email, &supplier.Password, &supplier.Address, &supplier.ContactInfo)
 
 	if err != nil {
 		return entities.Supplier{}, err
 	}
 
-	return client, nil
+	return supplier, nil
 
 }
 
 func (r *SupplierRepositoryMysql) GetById(id int64) (entities.Supplier, error) {
-	query := `SELECT id, email, password, username FROM users WHERE id =?`
+	query := `SELECT Id, Name, Email, Address, ContactInfo  FROM Supplier WHERE id =?`
     stmt, err := r.DB.Prepare(query)
     if err != nil {
         return entities.Supplier{}, err
@@ -137,13 +137,13 @@ func (r *SupplierRepositoryMysql) GetById(id int64) (entities.Supplier, error) {
 
     row := stmt.QueryRow(id)
 
-    var client entities.Supplier
+    var supplier entities.Supplier
 
-    err = row.Scan(&client.ID, &client.Name, &client.Email, &client.Password, &client.Address)
+    err = row.Scan(&supplier.ID, &supplier.Name, &supplier.Email, &supplier.Address, &supplier.ContactInfo)
 
     if err != nil {
         return entities.Supplier{}, err
     }
 
-    return client, nil
+    return supplier, nil
 }

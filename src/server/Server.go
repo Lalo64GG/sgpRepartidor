@@ -5,10 +5,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/lalo64/sgp/src/client/infraestructure/http/routes"
-	supplier "github.com/lalo64/sgp/src/supplier/infraestructure/http/routes"
+	"github.com/lalo64/sgp/src/config"
+	"github.com/lalo64/sgp/src/database"
 	delivery "github.com/lalo64/sgp/src/delivery/infraestructure/http/routes"
 	driver "github.com/lalo64/sgp/src/deliverydriver/infraestructure/http/routes"
-	"github.com/lalo64/sgp/src/database"
+	products "github.com/lalo64/sgp/src/products/infraestructure/http/routes"
+	supplier "github.com/lalo64/sgp/src/supplier/infraestructure/http/routes"
 )
 
 type Server struct {
@@ -30,6 +32,7 @@ func NewServer(http, port string) Server {
 	}
 
 	database.Connect()
+	srv.engine.Use(config.ConfigurationCors())
 	srv.engine.RedirectTrailingSlash = true
 	srv.registerRoutes()
 
@@ -41,11 +44,13 @@ func (s *Server) registerRoutes() {
 	supplierRoutes := s.engine.Group("/v1/supplier")
 	deliveryRoutes := s.engine.Group("/v1/delivery")
 	driverRoutes := s.engine.Group("/v1/driver")
+	productsRoutes := s.engine.Group("/v1/products")
 
 	supplier.SupplierRoutes(supplierRoutes)
 	routes.ClientRoutes(userRoutes)
 	delivery.DeliveryRoutes(deliveryRoutes)
 	driver.DriverRoutes(driverRoutes)
+	products.ProductsRoutes(productsRoutes)
 
 }
 

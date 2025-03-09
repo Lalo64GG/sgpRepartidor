@@ -8,7 +8,9 @@ import (
 func DriverRoutes(router *gin.RouterGroup) {
 	CreateDriverController := http.SetUpCreateDriverController()
 	authController := http.AuthController()
+	getById := http.GetDriverByIdController()
 
 	router.POST("/", CreateDriverController.Run)
 	router.POST("/auth", authController.Run)
+	router.GET("/:id", getById.Run)
 }

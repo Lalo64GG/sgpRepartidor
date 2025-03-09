@@ -29,7 +29,7 @@ func (ctr *CreateDeliveryController) Run(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, responses.Response{
 			Success: false,
-			Message: err.Error(),
+			Message: "LLenar todos los campos",
 			Data:    nil,
 			Error:   err.Error(),
 		})

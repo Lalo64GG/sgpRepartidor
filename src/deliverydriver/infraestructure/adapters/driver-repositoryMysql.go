@@ -24,7 +24,7 @@ func NewDriverRepositoryMysql() (*DriverRepositoryMysql, error){
 
 
 func (r *DriverRepositoryMysql) Create(driver entities.Driver) (entities.Driver, error) {
-	query := `INSERT INTO deliverydriver (Name, Email, Password, FCM_token) VALUES (?, ?, ?, ? )`
+	query := `INSERT INTO DeliveryDriver (Name, Email, Password, fcm_token) VALUES (?, ?, ?, ? )`
 	stmt, err := r.DB.Prepare(query)
 
 	if err != nil {
@@ -32,7 +32,7 @@ func (r *DriverRepositoryMysql) Create(driver entities.Driver) (entities.Driver,
 	}
 	defer stmt.Close()
 
-	result, err := stmt.Exec(driver.Name, driver.Email, driver.Password)
+	result, err := stmt.Exec(driver.Name, driver.Email, driver.Password, driver.FCM_TOKEN)
 
 	if err != nil {
 		return entities.Driver{}, err
@@ -70,7 +70,7 @@ func (r *DriverRepositoryMysql) GetByEmail(email string) (entities.Driver, error
 
 func (r *DriverRepositoryMysql) GetById(id int64) (entities.Driver, error) {
 	fmt.Println("GetDriverByIdUseCase", id)
-    query := `SELECT ID, Name, Email, Password, FCM_token FROM deliverydriver WHERE ID =?`
+    query := `SELECT ID, Name, Email, Password, fcm_token FROM deliverydriver WHERE ID =?`
     row := r.DB.QueryRow(query, id)
 
     var driver entities.Driver
