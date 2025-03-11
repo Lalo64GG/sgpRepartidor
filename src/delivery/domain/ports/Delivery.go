@@ -8,4 +8,5 @@ type IDelivery interface {
 	AssignDriver(deliveryID, driverID int) (entities.Delivery, error)
 	GetById(id int) (entities.Delivery, error)
 	GetAllSupplierID(id int64)([]entities.Delivery, error)
+	GetAllDriverID(id int64)([]entities.Delivery, error)
 }

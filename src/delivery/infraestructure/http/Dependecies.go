@@ -55,3 +55,8 @@ func GetAllSupplierID() *controllers.GetAllSupplierIDController{
 	getAllSupplierId := application.NewGetAllSupplierIDUseCase(deliveryRepository)
 	return controllers.NewGetAllSupplierIDController(getAllSupplierId)
 }
+
+func GetAllDriverID() *controllers.GetAllDriverIDController{
+	getAllDriverId := application.NewGetAllDriverIDUseCase(deliveryRepository)
+	return controllers.NewGetAllDriverIDController(getAllDriverId)
+}

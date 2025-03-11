@@ -149,3 +149,25 @@ func (r *DeliveryRepositoryMysql) GetAllSupplierID(id int64)([]entities.Delivery
 
 	return deliverys, nil
 }
+
+func (r* DeliveryRepositoryMysql) GetAllDriverID(id int64)([]entities.Delivery,error){
+	query := `SELECT DeliveryID, ClientID, DeliveryDate, Status, DriverID, SupplierID FROM Delivery WHERE DriverID = ?`
+
+	rows, err := r.DB.Query(query, id)
+	if err != nil {
+		return []entities.Delivery{}, err
+	}
+	defer rows.Close()
+
+	var deliverys []entities.Delivery
+	for rows.Next() {
+		var delivery entities.Delivery
+		err := rows.Scan(&delivery.DeliveryID, &delivery.ClientID, &delivery.DeliveryDate, &delivery.Status, &delivery.DriverID, &delivery.SupplierID)
+		if err != nil {
+			return []entities.Delivery{}, err
+		}
+		deliverys = append(deliverys, delivery)
+	}
+
+	return deliverys, nil
+}
