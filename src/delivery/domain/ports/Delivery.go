@@ -9,4 +9,5 @@ type IDelivery interface {
 	GetById(id int) (entities.Delivery, error)
 	GetAllSupplierID(id int64)([]entities.Delivery, error)
 	GetAllDriverID(id int64)([]entities.Delivery, error)
+	MarkAsDelivered(id int)(entities.Delivery, error)
 }

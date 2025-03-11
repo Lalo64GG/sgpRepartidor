@@ -105,8 +105,8 @@ func (r *DeliveryRepositoryMysql) MarkAsCancelled(deliveryID int) (entities.Deli
 
 // GetByID obtiene una entrega por su ID
 func (r *DeliveryRepositoryMysql) GetById(deliveryID int) (entities.Delivery, error) {
-	query := `SELECT DeliveryID, ClientID, DeliveryDate, Status, 
-          IFNULL(DriverID, 0),ProductID, SupplierID FROM Delivery WHERE DeliveryID = ?`
+	query := `SELECT DeliveryID, ClientID, DeliveryDate, ProductID, Status, 
+          IFNULL(DriverID, 0), SupplierID FROM Delivery WHERE DeliveryID = ?`
 
 
 	row := r.DB.QueryRow(query, deliveryID)
@@ -141,10 +141,22 @@ func (r *DeliveryRepositoryMysql) GetAllSupplierID(id int64)([]entities.Delivery
 	var deliverys []entities.Delivery
 	for rows.Next() {
 		var delivery entities.Delivery
-		err := rows.Scan(&delivery.DeliveryID, &delivery.ClientID, &delivery.DeliveryDate, &delivery.ProductID, &delivery.Status, &delivery.DriverID, &delivery.SupplierID)
+		var status []byte // Capturamos el status como []byte para evitar el error
+
+		err := rows.Scan(
+			&delivery.DeliveryID,
+			&delivery.ClientID,
+			&delivery.DeliveryDate,
+			&status, // Recibimos el dato como []byte
+			&delivery.ProductID,
+			&delivery.DriverID,
+			&delivery.SupplierID,
+		)
 		if err != nil {
 			return []entities.Delivery{}, err
 		}
+
+		delivery.Status = string(status) // Convertimos []byte a string antes de asignarlo
 		deliverys = append(deliverys, delivery)
 	}
 
@@ -158,15 +170,28 @@ func (r* DeliveryRepositoryMysql) GetAllDriverID(id int64)([]entities.Delivery,e
 	if err != nil {
 		return []entities.Delivery{}, err
 	}
+	
 	defer rows.Close()
 
 	var deliverys []entities.Delivery
 	for rows.Next() {
 		var delivery entities.Delivery
-		err := rows.Scan(&delivery.DeliveryID, &delivery.ClientID, &delivery.DeliveryDate, &delivery.ProductID, &delivery.Status, &delivery.DriverID, &delivery.SupplierID)
+		var status []byte // Capturamos el status como []byte para evitar el error
+
+		err := rows.Scan(
+			&delivery.DeliveryID,
+			&delivery.ClientID,
+			&delivery.DeliveryDate,
+			&status, // Recibimos el dato como []byte
+			&delivery.ProductID,
+			&delivery.DriverID,
+			&delivery.SupplierID,
+		)
 		if err != nil {
 			return []entities.Delivery{}, err
 		}
+
+		delivery.Status = string(status) // Convertimos []byte a string antes de asignarlo
 		deliverys = append(deliverys, delivery)
 	}
 

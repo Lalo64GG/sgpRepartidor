@@ -13,3 +13,7 @@ type AssignDriverRequest struct {
 	DeliveryID int `json:"delivery_id" validate:"required"`
 	DriverID   int `json:"driver_id" validate:"required"`
 }
+
+type MarkAsDeliveredRequest struct {
+	
+}

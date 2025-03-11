@@ -60,3 +60,8 @@ func GetAllDriverID() *controllers.GetAllDriverIDController{
 	getAllDriverId := application.NewGetAllDriverIDUseCase(deliveryRepository)
 	return controllers.NewGetAllDriverIDController(getAllDriverId)
 }
+
+func MarkAsDelivered() *controllers.MarkAsDeliveredController{
+	markAsDelivered := application.NewMarkAsDeliveredUseCase(deliveryRepository)
+	return controllers.NewMarkAsDeliveredController(markAsDelivered)
+}

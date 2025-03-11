@@ -10,9 +10,11 @@ func DeliveryRoutes(router *gin.RouterGroup) {
 	assingController := http.AssingDriverController()
 	getAllSupplierId := http.GetAllSupplierID()
 	getAllDriverId := http.GetAllDriverID()
+	markAsDelivered := http.MarkAsDelivered()
 
 	router.POST("/", createDeliveryController.Run)
 	router.PATCH("/assing", assingController.Run)
+	router.PATCH("/delivered/:id", markAsDelivered.Run)
 	router.GET("/:id", getAllSupplierId.Run)
 	router.GET("/driver/:id", getAllDriverId.Run)
 }
