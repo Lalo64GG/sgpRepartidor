@@ -127,3 +127,25 @@ func (r *DeliveryRepositoryMysql) UpdateStatus(status string) (bool, error) {
 	
 	return false, nil
 }
+
+func (r *DeliveryRepositoryMysql) GetAllSupplierID(id int64)([]entities.Delivery, error){
+	query := `SELECT DeliveryID, ClientID, DeliveryDate, Status, IFNULL(DriverID, 0), SupplierID FROM Delivery WHERE SupplierID = ?`
+
+	rows, err := r.DB.Query(query, id)
+	if err != nil {
+		return []entities.Delivery{}, err
+	}
+	defer rows.Close()
+
+	var deliverys []entities.Delivery
+	for rows.Next() {
+		var delivery entities.Delivery
+		err := rows.Scan(&delivery.DeliveryID, &delivery.ClientID, &delivery.DeliveryDate, &delivery.Status, &delivery.DriverID, &delivery.SupplierID)
+		if err != nil {
+			return []entities.Delivery{}, err
+		}
+		deliverys = append(deliverys, delivery)
+	}
+
+	return deliverys, nil
+}

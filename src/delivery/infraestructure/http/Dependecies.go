@@ -50,3 +50,8 @@ func AssingDriverController() *controllers.AssignDriverController {
     assingController := application.NewAssignDriverUseCase(deliveryRepository, driverRepository, notificationService)
     return controllers.NewAssignDriverController(assingController)
 }
+
+func GetAllSupplierID() *controllers.GetAllSupplierIDController{
+	getAllSupplierId := application.NewGetAllSupplierIDUseCase(deliveryRepository)
+	return controllers.NewGetAllSupplierIDController(getAllSupplierId)
+}

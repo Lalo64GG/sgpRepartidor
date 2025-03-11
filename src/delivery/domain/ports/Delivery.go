@@ -7,4 +7,5 @@ type IDelivery interface {
 	UpdateStatus(status string) (bool, error)
 	AssignDriver(deliveryID, driverID int) (entities.Delivery, error)
 	GetById(id int) (entities.Delivery, error)
+	GetAllSupplierID(id int64)([]entities.Delivery, error)
 }
