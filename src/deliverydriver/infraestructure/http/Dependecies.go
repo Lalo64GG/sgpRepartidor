@@ -42,3 +42,8 @@ func GetDriverByIdController() *controllers.GetDriverByIdController{
 	getDriverService := application.NewGetDriverByIdUseCase(driverRepository)
 	return controllers.NewGetDriverByIdController(getDriverService)
 }
+
+func GetAllController() *controllers.GetAllController{
+	getAllController := application.NewGetAllUseCase(driverRepository)
+	return controllers.NewGetAllController(getAllController)
+}

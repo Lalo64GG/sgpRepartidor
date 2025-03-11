@@ -85,3 +85,24 @@ func (r *DriverRepositoryMysql) GetById(id int64) (entities.Driver, error) {
 
     return driver, nil
 }
+
+func (r *DriverRepositoryMysql) GetAll()([]entities.Driver, error){
+	query := `SELECT ID, Name, Email, Password, fcm_token FROM deliverydriver`
+
+	rows, err := r.DB.Query(query)
+	if err != nil {
+		return []entities.Driver{}, err
+	}
+	defer rows.Close()
+
+	var drivers []entities.Driver
+	for rows.Next() {
+		var driver entities.Driver
+		err := rows.Scan(&driver.ID, &driver.Name, &driver.Email, &driver.Password, &driver.FCM_TOKEN)
+		if err != nil {
+			return []entities.Driver{}, err
+		}
+		drivers = append(drivers, driver)
+	}
+	return drivers, nil
+}
