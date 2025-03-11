@@ -60,7 +60,7 @@ func (ctr *CreateDeliveryController) Run(ctx *gin.Context) {
 	}
 
 	// Ejecutar el caso de uso
-	delivery, err := ctr.CreateDeliveryUseCase.Run(req.DriverID, req.ClientID, req.SupplierID, deliveryDate, req.Status)
+	delivery, err := ctr.CreateDeliveryUseCase.Run(req.DriverID, req.ClientID, req.SupplierID, req.ProductID, deliveryDate, req.Status)
 	if err != nil {
 		if strings.Contains(err.Error(), "el cliente es obligatorio") ||
 			strings.Contains(err.Error(), "el proveedor es obligatorio") ||

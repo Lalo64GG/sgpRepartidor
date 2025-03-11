@@ -16,7 +16,7 @@ func NewCreateDeliveryUseCase(deliveryRepository ports.IDelivery) *CreateDeliver
 	return &CreateDeliveryUseCase{DeliveryRepository: deliveryRepository}
 }
 
-func (c *CreateDeliveryUseCase) Run(driverID, clientID, supplierID int, deliveryDate time.Time, status string) (entities.Delivery, error) {
+func (c *CreateDeliveryUseCase) Run(driverID, clientID, supplierID, productID int, deliveryDate time.Time, status string) (entities.Delivery, error) {
 	if clientID == 0 {
 		return entities.Delivery{}, errors.New("el cliente es obligatorio")
 	}
@@ -35,6 +35,7 @@ func (c *CreateDeliveryUseCase) Run(driverID, clientID, supplierID int, delivery
 		DriverID:     driverID,
 		ClientID:     clientID,
 		SupplierID:   supplierID,
+		ProductID: productID,
 		DeliveryDate: deliveryDate,
 		Status:       status,
 	}
