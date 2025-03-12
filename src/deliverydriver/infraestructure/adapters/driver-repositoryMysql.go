@@ -52,7 +52,7 @@ func (r *DriverRepositoryMysql) Create(driver entities.Driver) (entities.Driver,
 
 func (r *DriverRepositoryMysql) GetByEmail(email string) (entities.Driver, error) {
 	fmt.Println("GetByEmail", email)
-	query := `SELECT ID, Name, Email, Password FROM deliverydriver WHERE Email =?`
+	query := `SELECT ID, Name, Email, Password FROM DeliveryDriver WHERE Email =?`
     row := r.DB.QueryRow(query, email)
 
     var driver entities.Driver
@@ -70,7 +70,7 @@ func (r *DriverRepositoryMysql) GetByEmail(email string) (entities.Driver, error
 
 func (r *DriverRepositoryMysql) GetById(id int64) (entities.Driver, error) {
 	fmt.Println("GetDriverByIdUseCase", id)
-    query := `SELECT ID, Name, Email, Password, fcm_token FROM deliverydriver WHERE ID =?`
+    query := `SELECT ID, Name, Email, Password, fcm_token FROM DeliveryDriver WHERE ID =?`
     row := r.DB.QueryRow(query, id)
 
     var driver entities.Driver
@@ -87,7 +87,7 @@ func (r *DriverRepositoryMysql) GetById(id int64) (entities.Driver, error) {
 }
 
 func (r *DriverRepositoryMysql) GetAll()([]entities.Driver, error){
-	query := `SELECT ID, Name, Email, Password, fcm_token FROM deliverydriver`
+	query := `SELECT ID, Name, Email, Password, fcm_token FROM DeliveryDriver`
 
 	rows, err := r.DB.Query(query)
 	if err != nil {
