@@ -11,6 +11,7 @@ import (
 	driver "github.com/lalo64/sgp/src/deliverydriver/infraestructure/http/routes"
 	products "github.com/lalo64/sgp/src/products/infraestructure/http/routes"
 	supplier "github.com/lalo64/sgp/src/supplier/infraestructure/http/routes"
+	"github.com/lalo64/sgp/src/ws" 
 )
 
 type Server struct {
@@ -32,6 +33,15 @@ func NewServer(http, port string) Server {
 	}
 
 	database.Connect()
+
+	srv.engine.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+
+	srv.engine.GET("/ws", ws.WebSocketHandler)
+	
 	srv.engine.Use(config.ConfigurationCors())
 	srv.engine.RedirectTrailingSlash = true
 	srv.registerRoutes()
